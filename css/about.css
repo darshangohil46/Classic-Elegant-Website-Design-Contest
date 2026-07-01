@@ -1,0 +1,294 @@
+/* ==========================================================================
+   about.css — Page-specific styles for about.html
+   ─────────────────────────────────────────────────────────────────────────
+   Imports the shared token + component system from the main CSS files.
+   Only overrides and additions specific to the About page live here.
+   ========================================================================== */
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   ACTIVE NAV STATE
+   Highlights the current page link in the nav.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.site-nav__active {
+  color: var(--ink-950);
+  font-weight: 600;
+  position: relative;
+}
+
+/* Underline indicator below the active link */
+.site-nav__active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-amber);
+  border-radius: 1px;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   ABOUT HERO
+   Shorter than the home hero. Sets tone with heading + mascot side by side.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.about-hero {
+  padding-block: var(--space-8);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--paper-100) 0%, var(--paper-50) 70%);
+  border-bottom: 1px solid var(--line);
+}
+
+.about-hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-7);
+}
+
+.about-hero__text {
+  max-width: 640px;
+}
+
+.about-hero__heading {
+  font-size: var(--fs-2xl);
+  margin-top: var(--space-3);
+  line-height: var(--lh-snug);
+}
+
+.about-hero__sub {
+  margin-top: var(--space-5);
+  font-size: var(--fs-md);
+  color: var(--ink-600);
+  max-width: 56ch;
+  line-height: var(--lh-normal);
+}
+
+/* Mascot hidden on mobile (not enough room); visible on desktop */
+.about-hero__mascot {
+  display: none;
+  width: 180px;
+  height: auto;
+  flex-shrink: 0;
+  opacity: 0.92;
+}
+
+@media (min-width: 860px) {
+  .about-hero__inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .about-hero__mascot {
+    display: block;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   ABOUT BODY — alternating sections
+   Each section is a "file" in the dossier: a label column (heading + tag)
+   and a content column (prose). Alternating backgrounds create rhythm
+   without feeling repetitive.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.about-section {
+  padding-block: var(--space-8);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Even sections get the warm paper-100 background */
+.about-section--alt {
+  background: var(--paper-100);
+}
+
+.about-section__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 760px) {
+  .about-section__inner {
+    grid-template-columns: 260px 1fr; /* Narrow label column left, prose right */
+    gap: var(--space-9);
+    align-items: start;
+  }
+}
+
+/* "FILE §N" tag + section heading in the label column */
+.about-section__label {
+  /* Position is sticky on desktop so the label stays visible while reading */
+}
+
+@media (min-width: 760px) {
+  .about-section__label {
+    position: sticky;
+    top: calc(64px + var(--space-6));
+  }
+}
+
+/* Classified file section tag */
+.about-file-tag {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-amber-dark);
+  margin-bottom: var(--space-3);
+}
+
+.about-section__heading {
+  font-size: var(--fs-lg);
+  color: var(--ink-950);
+  line-height: var(--lh-snug);
+}
+
+/* Prose content column: paragraphs, lists, pull-quotes */
+.about-section__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.about-section__content p {
+  font-size: var(--fs-base);
+  color: var(--ink-600);
+  line-height: var(--lh-normal);
+  max-width: 65ch;
+}
+
+.about-section__content strong {
+  color: var(--ink-950);
+}
+
+.about-section__content em {
+  font-style: italic;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   PULL QUOTE
+   Large italic display quote. Amber left border marks it as significant.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.about-pullquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  color: var(--ink-950);
+  line-height: var(--lh-snug);
+  border-left: 4px solid var(--accent-amber);
+  padding-left: var(--space-5);
+  margin-block: var(--space-2);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   HOW-IT-WORKS STEPS (About page variant)
+   Same numbered steps as the home page but inside prose, slightly smaller.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.about-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding-left: 0;
+}
+
+.about-step {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+/* Numbered badge — shares the same visual language as the home page how-it-works */
+.about-step__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--paper-0);
+  background: var(--ink-950);
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px; /* Optical alignment with first line of text */
+}
+
+.about-step__title {
+  display: block;
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--ink-950);
+  margin-bottom: var(--space-1);
+}
+
+.about-step__copy {
+  font-size: var(--fs-sm);
+  color: var(--ink-600);
+  line-height: var(--lh-normal);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   PRIVACY NOTE
+   Small muted disclaimer box inside the crawler section.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.about-note {
+  background: var(--paper-100);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ink-400);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--fs-sm);
+  color: var(--ink-600);
+}
+
+.about-note strong {
+  color: var(--ink-800);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   INLINE CTA (inside the position-search section)
+   ────────────────────────────────────────────────────────────────────────── */
+
+.about-cta-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+}
+
+.about-cta-inline__hint {
+  font-size: var(--fs-sm);
+  color: var(--ink-400);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   INLINE LINK (email, etc.)
+   ────────────────────────────────────────────────────────────────────────── */
+
+.about-link {
+  color: var(--accent-amber-dark);
+  font-weight: 500;
+  border-bottom: 1px solid var(--accent-amber-soft);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.about-link:hover {
+  color: var(--accent-amber);
+  border-color: var(--accent-amber);
+}

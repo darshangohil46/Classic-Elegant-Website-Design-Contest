@@ -1,0 +1,314 @@
+/* ==========================================================================
+   signin.css — Page-specific styles for signin.html
+   ─────────────────────────────────────────────────────────────────────────
+   Sign-in uses a centered single-column layout with the card as the sole
+   focal point. Background gets a subtle chessboard tile decorative element.
+   ========================================================================== */
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   PAGE SHELL
+   Full-height flex column: header top, main grows to fill, footer bottom.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.signin-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper-50);
+  overflow: hidden; /* Prevents the decorative bg tile from causing scrollbars */
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   SIGN-IN HEADER
+   Minimal — brand only, no nav. Keeps focus entirely on the form.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.signin-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-page);
+  /* Not sticky on sign-in; page is short and doesn't scroll meaningfully */
+}
+
+.signin-header__row {
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-4);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   MAIN — centered card layout
+   ────────────────────────────────────────────────────────────────────────── */
+
+.signin-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--space-8);
+  padding-inline: var(--space-5);
+  position: relative; /* Stacking context for the bg tile */
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   DECORATIVE BACKGROUND TILE
+   A faint chessboard pattern anchored to the bottom-right of the main area.
+   Low opacity keeps it purely atmospheric — the card is still the star.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.signin-bg-tile {
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 340px;
+  height: 340px;
+  background-image: repeating-conic-gradient(var(--paper-200) 0% 25%, transparent 0% 50%);
+  background-size: 42px 42px; /* Larger squares than the hero board — more decorative */
+  border-radius: var(--radius-lg);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   SIGN-IN CARD
+   White card, generous padding, subtle shadow.
+   Mascot peeks over the top — brand personality without distraction.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.signin-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-7) var(--space-6);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  z-index: 1; /* Above the bg tile */
+}
+
+/* Mascot peeking above the card top edge */
+.signin-card__mascot {
+  width: 72px;
+  height: auto;
+  position: absolute;
+  top: -44px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* Subtle peek animation — same keyframes defined in components.css */
+  animation: mascot-peek 4.5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signin-card__mascot {
+    animation: none;
+  }
+}
+
+/* Heading + sub-tagline */
+.signin-card__header {
+  text-align: center;
+  padding-top: var(--space-4); /* Space below the peeking mascot */
+}
+
+.signin-card__heading {
+  font-size: var(--fs-xl);
+  color: var(--ink-950);
+}
+
+.signin-card__sub {
+  margin-top: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--ink-400);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   SIGN-IN FORM
+   Each field: label (+ optional right-aligned link) on top, input below.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Individual form field group */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Label row: label left, "Forgot password?" link right */
+.form-field__label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-field__label {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink-800);
+}
+
+/* "Forgot password?" — small, muted, right side of the label row */
+.form-field__forgot {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+  transition: color 0.15s ease;
+}
+
+.form-field__forgot:hover {
+  color: var(--accent-amber-dark);
+}
+
+/* Shared input style for text/email/password */
+.form-field__input {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-base);
+  color: var(--ink-950);
+  background: var(--paper-50);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-field__input::placeholder {
+  color: var(--ink-400);
+}
+
+/* Amber focus ring — consistent with all inputs across the site */
+.form-field__input:focus {
+  border-color: var(--accent-amber);
+  box-shadow: var(--shadow-focus);
+  background: var(--bg-raised);
+}
+
+/* Wrapper for password input + toggle button */
+.form-field__password-wrap {
+  position: relative;
+}
+
+/* The input inside the wrapper gets right padding for the toggle button */
+.form-field__password-wrap .form-field__input {
+  padding-right: 48px;
+}
+
+/* Show/hide password toggle button */
+.form-field__toggle {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease;
+}
+
+.form-field__toggle:hover {
+  color: var(--ink-800);
+}
+
+/* Submit button spans full card width */
+.signin-form__submit {
+  width: 100%;
+  padding-block: var(--space-4); /* Taller than default button for prominence */
+  font-size: var(--fs-base);
+  margin-top: var(--space-2);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   DIVIDER + REGISTER LINK
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* "New to chess-intelligence?" divider with flanking lines */
+.signin-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--ink-400);
+  font-size: var(--fs-xs);
+}
+
+.signin-divider::before,
+.signin-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* "Create a free account" — full-width ghost button */
+.signin-card__register {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Small trust/reassurance line at the bottom */
+.signin-card__trust {
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+  line-height: var(--lh-normal);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   SIGN-IN FOOTER
+   Minimal legal strip — just copyright + a few links.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.signin-footer {
+  border-top: 1px solid var(--line);
+  padding-block: var(--space-4);
+  background: var(--bg-page);
+}
+
+.signin-footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.signin-footer__copy {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+}
+
+.signin-footer__links {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.signin-footer__links a {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+  transition: color 0.15s ease;
+}
+
+.signin-footer__links a:hover {
+  color: var(--ink-950);
+}

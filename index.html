@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>chess-intelligence — profile your next opponent</title>
+    <meta
+      name="description"
+      content="Search the web's chess games by player name, FIDE ID, or board position. Find every PGN, opening, and tendency before you sit down to play."
+    />
+
+    <!-- ── Favicon & touch icon ── -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon/favicon-48.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon-180.png" />
+
+    <!-- ── Google Fonts: Fraunces (display) + Inter (UI) ── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ── Stylesheets (load order matters) ── -->
+    <link rel="stylesheet" href="css/variables.css" /><!-- design tokens -->
+    <link rel="stylesheet" href="css/base.css" />     <!-- reset + base elements -->
+    <link rel="stylesheet" href="css/layout.css" />   <!-- section structure -->
+    <link rel="stylesheet" href="css/components.css" /><!-- UI components -->
+  </head>
+
+  <body>
+
+    <!-- Skip link for keyboard / screen-reader users -->
+    <a class="visually-hidden" href="#main">Skip to content</a>
+
+    <!-- ================================================================
+         HEADER — slim, brand-first, does not compete with hero search
+         ================================================================ -->
+    <header class="site-header">
+      <div class="wrap site-header__row">
+
+        <!-- Wordmark lockup: favicon mark + text -->
+        <a href="index.html" class="wordmark-lockup" aria-label="chess-intelligence home">
+          <img
+            class="wordmark-lockup__mark"
+            src="assets/favicon/favicon.svg"
+            alt=""
+            aria-hidden="true"
+            width="28"
+            height="28"
+          />
+          <span class="wordmark wordmark--sm">
+            <span class="wordmark__chess">chess</span><span class="wordmark__dash">-</span><span class="wordmark__intel">intelligence</span>
+          </span>
+        </a>
+
+        <!-- Primary navigation -->
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#how-it-works">How it works</a>
+          <a href="about.html">About</a>
+          <a href="signin.html" class="site-nav__signin">Sign in</a>
+        </nav>
+
+      </div>
+    </header>
+
+    <main id="main">
+
+      <!-- ================================================================
+           HERO — the entire product pitch in one screen.
+           Wordmark → tagline → dual search surface (name + board side-by-side).
+           Mascot integrated beside the search bar, looking toward the input.
+           ================================================================ -->
+      <section class="hero">
+        <div class="wrap hero__inner">
+
+          <!-- Brand intro: mascot peek → wordmark → tagline -->
+          <div class="hero__intro">
+            <img
+              class="hero__mascot-peek"
+              src="assets/img/mascot-hero.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <h1 class="wordmark wordmark--lg">
+              <span class="wordmark__chess">chess</span><span class="wordmark__dash">-</span><span class="wordmark__intel">intelligence</span>
+            </h1>
+            <p class="hero__tagline">
+              Profile your next opponent before they make a move.
+            </p>
+          </div>
+
+          <!-- Surface label connecting the two search modes -->
+          <p class="eyebrow hero__surface-label">Search by player — or by position</p>
+
+          <!-- Unified search surface: Mode A left, "or" divider, Mode B right -->
+          <div class="search-surface">
+
+            <!-- ── Mode A: search by name / FIDE ID ── -->
+            <div class="search-surface__mode search-surface__mode--name">
+              <!-- h2 visually hidden; wordmark carries the visual weight here -->
+              <h2 class="search-surface__heading">Find a player</h2>
+
+              <form class="namesearch" action="#" role="search">
+                <label for="player-search" class="visually-hidden">Name or FIDE ID</label>
+                <!-- Magnifying glass icon reinforces the spy/search theme -->
+                <svg class="namesearch__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+                  <line x1="16.2" y1="16.2" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <input
+                  id="player-search"
+                  type="text"
+                  name="q"
+                  placeholder="Name or FIDE ID — e.g. Carlsen, or 1503014"
+                  autocomplete="off"
+                />
+                <button type="submit" class="btn btn-primary namesearch__submit">Search</button>
+              </form>
+
+              <p class="search-surface__helper">We'll dig up every game we can find on them.</p>
+
+              <!-- Popular search suggestions -->
+              <div class="namesearch__suggestions">
+                <span class="namesearch__suggestion-label">Try:</span>
+                <button type="button" class="namesearch__chip">Magnus Carlsen</button>
+                <button type="button" class="namesearch__chip">Hikaru Nakamura</button>
+                <button type="button" class="namesearch__chip">Fabiano Caruana</button>
+              </div>
+            </div>
+
+            <!-- ── Divider with "or" ── -->
+            <div class="search-surface__divider" role="presentation">
+              <span>or</span>
+            </div>
+
+            <!-- ── Mode B: search by board position ── -->
+            <div class="search-surface__mode search-surface__mode--board">
+              <h2 class="search-surface__heading">Hunt by opening</h2>
+              <p class="search-surface__sublabel">Set the board, find what they play.</p>
+
+              <!-- Board "case file" card — dossier framing around the board placeholder -->
+              <div class="board-dossier">
+                <!-- Tab label gives it the dossier/classified-file aesthetic -->
+                <div class="board-dossier__tab">Position file</div>
+
+                <!-- Controls row above the board -->
+                <div class="board-dossier__top">
+                  <span class="side-indicator">
+                    <span class="side-indicator__dot" aria-hidden="true"></span>
+                    White to move
+                  </span>
+                  <div class="board-dossier__controls">
+                    <button type="button" class="btn-icon" aria-label="Undo last move">
+                      <!-- Undo arrow icon -->
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M9 14L4 9l5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4 9h10a6 6 0 0 1 0 12h-1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                    <button type="button" class="btn-icon" aria-label="Reset board">
+                      <!-- Reset / refresh icon -->
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M3 12a9 9 0 1 0 3-6.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <path d="M3 4v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Board placeholder — client drops their own JS board component here.
+                     Corner reticles give it the surveillance / targeting aesthetic. -->
+                <div class="board-placeholder" aria-label="Interactive chess board will load here">
+                  <span class="board-placeholder__reticle board-placeholder__reticle--tl" aria-hidden="true"></span>
+                  <span class="board-placeholder__reticle board-placeholder__reticle--tr" aria-hidden="true"></span>
+                  <span class="board-placeholder__reticle board-placeholder__reticle--bl" aria-hidden="true"></span>
+                  <span class="board-placeholder__reticle board-placeholder__reticle--br" aria-hidden="true"></span>
+                  <div class="board-placeholder__grid" aria-hidden="true"></div>
+                  <p class="board-placeholder__label">Board component loads here</p>
+                </div>
+
+                <!-- Optional FEN input for direct position paste -->
+                <div class="board-dossier__bottom">
+                  <label for="fen-input" class="board-dossier__fen-label">FEN</label>
+                  <input
+                    id="fen-input"
+                    class="board-dossier__fen-input"
+                    type="text"
+                    placeholder="rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR"
+                    autocomplete="off"
+                  />
+                </div>
+
+                <button type="button" class="btn btn-primary board-dossier__submit">
+                  Search this position
+                </button>
+              </div><!-- /board-dossier -->
+            </div><!-- /Mode B -->
+
+          </div><!-- /search-surface -->
+        </div><!-- /hero__inner -->
+      </section>
+
+      <!-- ================================================================
+           STATS STRIP — builds trust immediately below the hero fold.
+           Dark background for contrast rhythm. Numbers in amber accent.
+           ================================================================ -->
+      <section class="stats-strip" aria-label="Platform statistics">
+        <div class="wrap stats-strip__inner">
+          <dl class="stats-strip__list">
+            <div class="stats-strip__item">
+              <dt class="stats-strip__label">Games indexed</dt>
+              <dd class="stats-strip__value">12M<span class="stats-strip__plus">+</span></dd>
+            </div>
+            <div class="stats-strip__item">
+              <dt class="stats-strip__label">Players profiled</dt>
+              <dd class="stats-strip__value">640k<span class="stats-strip__plus">+</span></dd>
+            </div>
+            <div class="stats-strip__item">
+              <dt class="stats-strip__label">PGN sources</dt>
+              <dd class="stats-strip__value">80<span class="stats-strip__plus">+</span></dd>
+            </div>
+            <div class="stats-strip__item">
+              <dt class="stats-strip__label">Updated</dt>
+              <dd class="stats-strip__value">Daily</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           RESULTS PREVIEW (DOSSIER) — proof of payload.
+           Visitors see exactly what they get before committing to a search.
+           Styled as a classified "case file" to reinforce the spy theme.
+           ================================================================ -->
+      <section class="dossier-preview">
+        <div class="wrap dossier-preview__inner">
+
+          <div class="dossier-preview__intro">
+            <p class="eyebrow">Sample case file</p>
+            <h2 class="dossier-preview__heading">Here's what comes back</h2>
+            <p class="dossier-preview__copy">
+              Every match we can find, distilled into a scannable case file —
+              names, ratings, dates, and the opening that gave them away.
+            </p>
+            <a href="#" class="btn btn-ghost dossier-preview__cta">Browse example dossier</a>
+          </div>
+
+          <!-- Case file card with faux-classified styling -->
+          <div class="case-file">
+            <!-- Header row: redacted bars simulate a classified header; tag shows case number -->
+            <div class="case-file__header">
+              <span class="case-file__redacted" style="width: 38%"></span>
+              <span class="case-file__tag">CASE №2671</span>
+              <span class="case-file__redacted" style="width: 18%"></span>
+            </div>
+
+            <!-- Game rows — each shows: players + Elo, opening name, date, PGN indicator -->
+            <ul class="case-file__rows">
+
+              <li class="case-file__row">
+                <div class="case-file__players">
+                  <span class="case-file__player">M. Carlsen <em>2839</em></span>
+                  <span class="case-file__vs">vs</span>
+                  <span class="case-file__player">H. Nakamura <em>2802</em></span>
+                </div>
+                <span class="case-file__opening">
+                  <span class="case-file__opening-tag">Najdorf Sicilian, 6.Bg5</span>
+                </span>
+                <span class="case-file__date">2024-11-03</span>
+                <span class="case-file__pgn">PGN available</span>
+              </li>
+
+              <li class="case-file__row">
+                <div class="case-file__players">
+                  <span class="case-file__player">D. Gukesh <em>2780</em></span>
+                  <span class="case-file__vs">vs</span>
+                  <span class="case-file__player">I. Nepomniachtchi <em>2758</em></span>
+                </div>
+                <span class="case-file__opening">
+                  <span class="case-file__opening-tag">Ruy Lopez, Berlin Defence</span>
+                </span>
+                <span class="case-file__date">2024-08-21</span>
+                <span class="case-file__pgn">PGN available</span>
+              </li>
+
+              <li class="case-file__row">
+                <div class="case-file__players">
+                  <span class="case-file__player">A. Firouzja <em>2760</em></span>
+                  <span class="case-file__vs">vs</span>
+                  <span class="case-file__player">F. Caruana <em>2803</em></span>
+                </div>
+                <span class="case-file__opening">
+                  <span class="case-file__opening-tag">English Opening, 1.c4 e5</span>
+                </span>
+                <span class="case-file__date">2024-05-14</span>
+                <span class="case-file__pgn">PGN available</span>
+              </li>
+
+              <li class="case-file__row">
+                <div class="case-file__players">
+                  <span class="case-file__player">R. Praggnanandhaa <em>2747</em></span>
+                  <span class="case-file__vs">vs</span>
+                  <span class="case-file__player">W. So <em>2778</em></span>
+                </div>
+                <span class="case-file__opening">
+                  <span class="case-file__opening-tag">King's Indian, Classical</span>
+                </span>
+                <span class="case-file__date">2024-03-07</span>
+                <span class="case-file__pgn">PGN available</span>
+              </li>
+
+            </ul>
+
+            <!-- Case file CTA footer -->
+            <div class="case-file__footer">
+              <span class="case-file__more-hint">+48 more games found</span>
+              <a href="#" class="case-file__view-link">
+                View full case file
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Paper-clip decorative detail — gives the card a physical document feel -->
+            <div class="case-file__paperclip" aria-hidden="true"></div>
+          </div><!-- /case-file -->
+
+        </div>
+      </section>
+
+      <!-- ================================================================
+           TESTIMONIALS — brief social proof from chess players.
+           Fraunces italic for quote text; asymmetric layout, not a card grid.
+           ================================================================ -->
+      <section class="testimonials">
+        <div class="wrap testimonials__inner">
+
+          <p class="eyebrow testimonials__eyebrow">From the field</p>
+
+          <div class="testimonials__grid">
+
+            <figure class="testimonial">
+              <blockquote class="testimonial__quote">
+                "Found my opponent's pet line against the Sicilian in under ten seconds.
+                 That kind of prep used to take an hour of database work."
+              </blockquote>
+              <figcaption class="testimonial__author">
+                <span class="testimonial__name">A. Kovalenko</span>
+                <span class="testimonial__detail">FIDE 2340 · Club player, Kyiv</span>
+              </figcaption>
+            </figure>
+
+            <figure class="testimonial testimonial--offset">
+              <blockquote class="testimonial__quote">
+                "I checked my tournament draw before round one. Three minutes later
+                 I had every game he'd played on the Black side of the French in 2024."
+              </blockquote>
+              <figcaption class="testimonial__author">
+                <span class="testimonial__name">S. Morales</span>
+                <span class="testimonial__detail">FIDE 1980 · Tournament player, Buenos Aires</span>
+              </figcaption>
+            </figure>
+
+            <figure class="testimonial">
+              <blockquote class="testimonial__quote">
+                "The position search is genuinely useful. Set up after 1.e4, it tells you
+                 exactly what your opponent reaches and how they tend to play from there."
+              </blockquote>
+              <figcaption class="testimonial__author">
+                <span class="testimonial__name">T. van der Berg</span>
+                <span class="testimonial__detail">FIDE 2105 · IM candidate, Amsterdam</span>
+              </figcaption>
+            </figure>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           HOW IT WORKS — 3-step explainer.
+           Connected timeline, step 2 (crawler) carries more visual weight.
+           ================================================================ -->
+      <section class="how" id="how-it-works">
+        <div class="wrap how__inner">
+          <p class="eyebrow">How it works</p>
+          <h2 class="how__heading">Three steps to a full dossier</h2>
+
+          <ol class="how__timeline">
+
+            <li class="how__step">
+              <span class="how__index">01</span>
+              <h3 class="how__step-heading">Name the target</h3>
+              <p class="how__step-copy">
+                Search a player by name or FIDE ID, or arrange pieces on the board
+                to profile a specific opening repertoire.
+              </p>
+            </li>
+
+            <!-- Step 2 is the hero step — mascot + amber badge + more copy -->
+            <li class="how__step how__step--feature">
+              <img class="how__mascot" src="assets/img/mascot-investigating.svg" alt="" aria-hidden="true" />
+              <span class="how__index">02</span>
+              <h3 class="how__step-heading">We investigate</h3>
+              <p class="how__step-copy">
+                Our crawler quietly combs the web for every PGN tied to your target —
+                tournaments, clubs, archives, correspondence games. All of it.
+              </p>
+            </li>
+
+            <li class="how__step">
+              <span class="how__index">03</span>
+              <h3 class="how__step-heading">Read the dossier</h3>
+              <p class="how__step-copy">
+                Get every game, their openings, and the patterns they fall back on
+                under pressure. Prepare. Play.
+              </p>
+            </li>
+
+          </ol>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           PRE-FOOTER CTA — final conversion opportunity before leaving.
+           Dark background echoes the footer, creates a bookend with the stats strip.
+           Search bar repeated so users can act without scrolling back up.
+           ================================================================ -->
+      <section class="cta-block">
+        <div class="wrap cta-block__inner">
+          <div class="cta-block__copy">
+            <h2 class="cta-block__heading">Your next game starts with preparation.</h2>
+            <p class="cta-block__sub">
+              Every opponent leaves a trail. Start following it.
+            </p>
+          </div>
+          <form class="cta-block__search" action="#" role="search">
+            <label for="cta-search" class="visually-hidden">Search a player</label>
+            <svg class="namesearch__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+              <line x1="16.2" y1="16.2" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <input id="cta-search" type="text" placeholder="Name or FIDE ID…" autocomplete="off" />
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+        </div>
+      </section>
+
+    </main><!-- /main -->
+
+    <!-- ================================================================
+         FOOTER — brand repeat, links, cheeky espionage sign-off.
+         Dark background bookends the page against the light hero.
+         ================================================================ -->
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+
+        <!-- Brand column -->
+        <div class="site-footer__brand" id="about">
+          <a href="index.html" class="wordmark wordmark--sm wordmark--inverse" aria-label="chess-intelligence home">
+            <span class="wordmark__chess">chess</span><span class="wordmark__dash">-</span><span class="wordmark__intel">intelligence</span>
+          </a>
+          <p class="site-footer__about">
+            A search engine for chess players' games — built for anyone who'd rather
+            know what they're walking into.
+          </p>
+        </div>
+
+        <!-- Footer navigation -->
+        <nav class="site-footer__links" aria-label="Footer">
+          <a href="about.html">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy</a>
+        </nav>
+
+        <!-- Small mascot repeat — brand consistency, friendly sign-off -->
+        <img
+          class="site-footer__mascot"
+          src="assets/img/mascot-footer.svg"
+          alt=""
+          aria-hidden="true"
+        />
+
+      </div><!-- /site-footer__inner -->
+
+      <!-- Cheeky one-liner in espionage tone -->
+      <p class="site-footer__cheeky wrap">
+        We're not spies. We just read everything, remember everything, and never blink.
+      </p>
+    </footer>
+
+  </body>
+</html>

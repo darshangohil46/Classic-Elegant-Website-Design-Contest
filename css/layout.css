@@ -1,0 +1,396 @@
+/* ==========================================================================
+   layout.css — Section-level structure for every page region
+   ─────────────────────────────────────────────────────────────────────────
+   Rules here control the skeleton of each section: widths, vertical rhythm,
+   grid/flex containers, and responsive breakpoints.
+   Component-level detail (colours, typography, specific elements) lives in
+   components.css. Keep layout rules structural — avoid visual opinions here.
+
+   Mobile-first: base styles target small screens; min-width media queries
+   layer on top for tablet and desktop. No separate responsive.css needed.
+   ========================================================================== */
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   HEADER
+   Slim top bar. Stays out of the hero's way visually.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-page);
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Ensure header stays above all page content while scrolling */
+}
+
+.site-header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;         /* Allows nav to drop to its own row on very narrow screens */
+  row-gap: var(--space-3);
+  gap: var(--space-3);
+  padding-block: var(--space-4);
+}
+
+/* Below 420px: nav spans full width so items have enough room */
+@media (max-width: 420px) {
+  .site-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   HERO
+   The core of the page. Two search modes visible together.
+   Generous vertical breathing room — calm, search-engine-style canvas.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.hero {
+  padding-block: var(--space-8) var(--space-9);
+  /* Subtle warm radial to distinguish hero canvas without a harsh edge */
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--paper-100) 0%, var(--paper-50) 70%);
+}
+
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-7);
+}
+
+.hero__intro {
+  position: relative;
+  text-align: center;
+  max-width: 640px;
+}
+
+.hero__surface-label {
+  text-align: center;
+}
+
+/* Unified search surface containing both search modes */
+.search-surface {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Mobile: stacked (name search first, board second per §7) */
+  gap: var(--space-6);
+  align-items: stretch;
+}
+
+/* Name search column */
+.search-surface__mode--name {
+  max-width: 640px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* Board search column */
+.search-surface__mode--board {
+  max-width: 480px;
+  margin-inline: auto;
+}
+
+/* "or" divider between the two modes */
+.search-surface__divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  color: var(--ink-400);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Hairlines flanking the "or" text */
+.search-surface__divider::before,
+.search-surface__divider::after {
+  content: "";
+  height: 1px;
+  width: 64px;
+  background: var(--line);
+}
+
+/* ── Desktop hero layout: side by side ── */
+@media (min-width: 960px) {
+  .search-surface {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--space-8);
+  }
+
+  /* Name search takes more width (it's the primary mode) */
+  .search-surface__mode--name {
+    flex: 1 1 0;
+    max-width: 480px;
+    margin-inline: 0;
+    text-align: left;
+    padding-top: var(--space-7); /* Vertically align with board card top */
+  }
+
+  /* Board search is narrower and gets the dossier card treatment */
+  .search-surface__mode--board {
+    flex: 0 1 420px;
+    margin-inline: 0;
+  }
+
+  /* Rotate divider to vertical for side-by-side layout */
+  .search-surface__divider {
+    flex-direction: column;
+    padding-top: var(--space-7);
+  }
+
+  .search-surface__divider::before,
+  .search-surface__divider::after {
+    width: 1px;
+    height: 56px;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   STATS STRIP
+   Narrow trust-builder directly below the hero fold.
+   Dark ink background creates contrast rhythm against the light hero.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.stats-strip {
+  background: var(--ink-950);
+  padding-block: var(--space-6);
+}
+
+.stats-strip__inner {
+  /* Numbers as a responsive flex row that wraps gracefully */
+}
+
+.stats-strip__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-6) var(--space-8);
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .stats-strip__list {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   RESULTS PREVIEW / DOSSIER
+   Below the fold; shows visitors exactly what the product delivers.
+   Warm paper-100 background differentiates it from the hero.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.dossier-preview {
+  padding-block: var(--space-9);
+  background: var(--paper-100);
+  border-block: 1px solid var(--line);
+}
+
+.dossier-preview__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+}
+
+.dossier-preview__intro {
+  max-width: 560px;
+}
+
+.dossier-preview__heading {
+  font-size: var(--fs-xl);
+  margin-top: var(--space-2);
+}
+
+.dossier-preview__copy {
+  margin-top: var(--space-3);
+  color: var(--ink-600);
+}
+
+.dossier-preview__cta {
+  margin-top: var(--space-5);
+}
+
+/* ── Tablet and up: intro sticks left, case file fills remaining space ── */
+@media (min-width: 860px) {
+  .dossier-preview__inner {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-9);
+  }
+
+  .dossier-preview__intro {
+    flex: 0 0 300px;
+    position: sticky;
+    top: calc(64px + var(--space-6)); /* Offset for sticky header height */
+  }
+
+  .case-file {
+    flex: 1 1 auto;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   TESTIMONIALS
+   Social proof strip; asymmetric grid avoids the uniform card-grid look.
+   Light paper background with a hint of warmth, different from the dossier.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.testimonials {
+  padding-block: var(--space-9);
+  background: var(--paper-50);
+}
+
+.testimonials__inner {
+  /* Max-width and padding via .wrap */
+}
+
+.testimonials__eyebrow {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+/* Three-column grid on desktop; stacked on mobile */
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 720px) {
+  .testimonials__grid {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+    gap: var(--space-6);
+  }
+
+  /* Middle testimonial is nudged down for intentional visual rhythm */
+  .testimonial--offset {
+    margin-top: var(--space-7);
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   HOW IT WORKS
+   3-step explainer strip. Numbered timeline, step 2 carries more weight.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.how {
+  padding-block: var(--space-8);
+  background: var(--paper-100);
+  border-top: 1px solid var(--line);
+}
+
+.how__heading {
+  font-size: var(--fs-xl);
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-7);
+  max-width: 480px;
+}
+
+/* Single column on mobile */
+.how__timeline {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+  position: relative;
+}
+
+/* Three-column connected timeline on larger screens */
+@media (min-width: 760px) {
+  .how__timeline {
+    grid-template-columns: 1fr 1.2fr 1fr; /* Step 2 slightly wider to carry mascot */
+    align-items: start;
+    gap: var(--space-6);
+  }
+
+  /* Horizontal connecting line running through all step index badges */
+  .how__timeline::before {
+    content: "";
+    position: absolute;
+    top: 14px;              /* Vertically centred on the 28px badge */
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: var(--line);
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   PRE-FOOTER CTA BLOCK
+   Final conversion opportunity. Dark background matches stats strip,
+   creating a symmetric dark/light/dark page rhythm.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.cta-block {
+  background: var(--ink-800);
+  padding-block: var(--space-9);
+}
+
+.cta-block__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  text-align: center;
+}
+
+@media (min-width: 760px) {
+  .cta-block__inner {
+    flex-direction: row;
+    text-align: left;
+    justify-content: space-between;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   FOOTER
+   Dark bookend; mirrors the stats strip and CTA block for page rhythm.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.site-footer {
+  background: var(--ink-950);
+  color: var(--paper-100);
+  padding-top: var(--space-7);
+}
+
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: start;
+  padding-bottom: var(--space-6);
+}
+
+.site-footer__links {
+  display: flex;
+  gap: var(--space-5);
+}
+
+/* The cheeky espionage sign-off line; sits below the footer grid */
+.site-footer__cheeky {
+  border-top: 1px solid var(--line-on-dark);
+  padding-block: var(--space-4);
+  font-size: var(--fs-xs);
+  color: var(--ink-200);
+}
+
+/* Three-column footer on medium screens */
+@media (min-width: 760px) {
+  .site-footer__inner {
+    grid-template-columns: 2fr 1fr auto;
+  }
+}

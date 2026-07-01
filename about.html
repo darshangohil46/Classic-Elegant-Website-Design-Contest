@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — chess-intelligence</title>
+    <meta
+      name="description"
+      content="The mission behind chess-intelligence: why we built a web crawler for chess games, how it works, and who we are."
+    />
+
+    <!-- ── Favicon ── -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon-180.png" />
+
+    <!-- ── Google Fonts ── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ── Stylesheets ── -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/about.css" />
+  </head>
+
+  <body>
+
+    <a class="visually-hidden" href="#main">Skip to content</a>
+
+    <!-- ── Shared header (identical to index.html) ── -->
+    <header class="site-header">
+      <div class="wrap site-header__row">
+        <a href="index.html" class="wordmark-lockup" aria-label="chess-intelligence home">
+          <img class="wordmark-lockup__mark" src="assets/favicon/favicon.svg" alt="" aria-hidden="true" width="28" height="28" />
+          <span class="wordmark wordmark--sm">
+            <span class="wordmark__chess">chess</span><span class="wordmark__dash">-</span><span class="wordmark__intel">intelligence</span>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="index.html#how-it-works">How it works</a>
+          <a href="about.html" aria-current="page" class="site-nav__active">About</a>
+          <a href="signin.html" class="site-nav__signin">Sign in</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+
+      <!-- ================================================================
+           ABOUT HERO — page entry point, sets the spy-story tone.
+           Not as tall as the home hero; serves as chapter title only.
+           ================================================================ -->
+      <section class="about-hero">
+        <div class="wrap about-hero__inner">
+
+          <div class="about-hero__text">
+            <p class="eyebrow">The mission</p>
+            <h1 class="about-hero__heading">
+              We read every game.<br>
+              So you don't go in blind.
+            </h1>
+            <p class="about-hero__sub">
+              chess-intelligence started as a simple frustration: why does preparing for a
+              specific opponent still require hours of manual database work? We built a
+              crawler so you don't have to do it yourself.
+            </p>
+          </div>
+
+          <!-- Mascot beside the heading on desktop -->
+          <img
+            class="about-hero__mascot"
+            src="assets/img/mascot-investigating.svg"
+            alt=""
+            aria-hidden="true"
+          />
+
+        </div>
+      </section>
+
+      <!-- ================================================================
+           DOSSIER SECTIONS — the story told as a classified brief.
+           Each section is a "file section" in the dossier metaphor.
+           ================================================================ -->
+      <div class="about-body">
+
+        <!-- ── §1 — Origin ── -->
+        <section class="about-section">
+          <div class="wrap about-section__inner">
+
+            <aside class="about-section__label">
+              <span class="about-file-tag">FILE §1</span>
+              <h2 class="about-section__heading">The problem with preparation</h2>
+            </aside>
+
+            <div class="about-section__content">
+              <p>
+                Every serious chess player knows the ritual: you get your round-one pairing, you
+                open your database, you search for your opponent's name, and you sift through whatever
+                games happen to be indexed there — if any. You piece together their repertoire from
+                incomplete evidence. You guess the rest.
+              </p>
+              <p>
+                That information exists. Thousands of sites, club archives, tournament pages, and
+                correspondence servers host PGN files. But no single tool pulls all of it together,
+                sorted, searchable, and ready to read. Until now.
+              </p>
+              <blockquote class="about-pullquote">
+                "The files are out there. We just go and get them."
+              </blockquote>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ── §2 — How the crawler works ── -->
+        <section class="about-section about-section--alt">
+          <div class="wrap about-section__inner">
+
+            <aside class="about-section__label">
+              <span class="about-file-tag">FILE §2</span>
+              <h2 class="about-section__heading">How the crawler works</h2>
+            </aside>
+
+            <div class="about-section__content">
+              <p>
+                At its core, chess-intelligence is an autonomous web crawler built for one specific
+                target: PGN files. Every night it sweeps a curated list of chess databases, club
+                sites, tournament archives, and open repositories. When it finds a PGN, it parses
+                the player names, FIDE IDs (when present), ratings, and move sequences, and writes
+                it into the index.
+              </p>
+
+              <!-- Three-step technical explainer — brief, scannable -->
+              <ol class="about-steps">
+                <li class="about-step">
+                  <span class="about-step__index">01</span>
+                  <div>
+                    <strong class="about-step__title">Discover</strong>
+                    <p class="about-step__copy">
+                      The crawler navigates to known PGN sources — 80+ and growing.
+                      It follows links, unzips archives, and parses both inline and downloadable PGN.
+                    </p>
+                  </div>
+                </li>
+                <li class="about-step">
+                  <span class="about-step__index">02</span>
+                  <div>
+                    <strong class="about-step__title">Normalise</strong>
+                    <p class="about-step__copy">
+                      Player names are de-duplicated and matched against FIDE records where possible.
+                      Games are deduplicated by move sequence so the same game from two sources
+                      counts once.
+                    </p>
+                  </div>
+                </li>
+                <li class="about-step">
+                  <span class="about-step__index">03</span>
+                  <div>
+                    <strong class="about-step__title">Index</strong>
+                    <p class="about-step__copy">
+                      Each game is stored with full metadata and made searchable by player name,
+                      FIDE ID, opening name, ECO code, date range, and board position via FEN prefix.
+                    </p>
+                  </div>
+                </li>
+              </ol>
+
+              <p class="about-note">
+                <strong>Privacy note:</strong> We only index games that appear in publicly accessible
+                PGN files. We do not collect or process any personal information beyond what is
+                included in those files.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ── §3 — Position search ── -->
+        <section class="about-section">
+          <div class="wrap about-section__inner">
+
+            <aside class="about-section__label">
+              <span class="about-file-tag">FILE §3</span>
+              <h2 class="about-section__heading">The position search</h2>
+            </aside>
+
+            <div class="about-section__content">
+              <p>
+                The position search is the feature we're most proud of. Set up any position on the
+                board — say, after 1.e4 — and the engine returns every game in the index that
+                reached that position, sorted by how your target player responded.
+              </p>
+              <p>
+                So instead of memorising an opponent's opening moves from a list, you ask the
+                right question: <em>"What does he play here?"</em> Set the board to the moment
+                of your choice. Get the answer in seconds.
+              </p>
+              <div class="about-cta-inline">
+                <a href="index.html" class="btn btn-primary">Try the position search</a>
+                <span class="about-cta-inline__hint">No account required.</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ── §4 — Who we are ── -->
+        <section class="about-section about-section--alt">
+          <div class="wrap about-section__inner">
+
+            <aside class="about-section__label">
+              <span class="about-file-tag">FILE §4</span>
+              <h2 class="about-section__heading">Who we are</h2>
+            </aside>
+
+            <div class="about-section__content">
+              <p>
+                A small team of chess players who also happen to write software. We built
+                chess-intelligence because we wanted it ourselves. We got tired of having less
+                preparation than our opponents who had access to expensive database subscriptions.
+              </p>
+              <p>
+                The tool is free at its core — because preparation should not be a pay-to-win
+                advantage. We may add optional features over time to keep the lights on, but
+                the search will always be free.
+              </p>
+              <p>
+                Questions, suggestions, or game sources we should be crawling?
+                <a href="mailto:hello@chess-intelligence.com" class="about-link">hello@chess-intelligence.com</a>
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+      </div><!-- /about-body -->
+
+      <!-- ── Final CTA ── -->
+      <section class="cta-block">
+        <div class="wrap cta-block__inner">
+          <div class="cta-block__copy">
+            <h2 class="cta-block__heading">Ready to profile your next opponent?</h2>
+            <p class="cta-block__sub">No account needed. Just a name or a position.</p>
+          </div>
+          <form class="cta-block__search" action="index.html" role="search">
+            <label for="about-cta-search" class="visually-hidden">Search a player</label>
+            <svg class="namesearch__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+              <line x1="16.2" y1="16.2" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <input id="about-cta-search" type="text" placeholder="Name or FIDE ID…" autocomplete="off" />
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ── Shared footer ── -->
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <div class="site-footer__brand">
+          <a href="index.html" class="wordmark wordmark--sm wordmark--inverse" aria-label="chess-intelligence home">
+            <span class="wordmark__chess">chess</span><span class="wordmark__dash">-</span><span class="wordmark__intel">intelligence</span>
+          </a>
+          <p class="site-footer__about">
+            A search engine for chess players' games — built for anyone who'd rather know what they're walking into.
+          </p>
+        </div>
+        <nav class="site-footer__links" aria-label="Footer">
+          <a href="about.html">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy</a>
+        </nav>
+        <img class="site-footer__mascot" src="assets/img/mascot-footer.svg" alt="" aria-hidden="true" />
+      </div>
+      <p class="site-footer__cheeky wrap">
+        We're not spies. We just read everything, remember everything, and never blink.
+      </p>
+    </footer>
+
+  </body>
+</html>

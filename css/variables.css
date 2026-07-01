@@ -1,0 +1,114 @@
+/* ==========================================================================
+   variables.css — Design tokens for chess-intelligence.com
+   ─────────────────────────────────────────────────────────────────────────
+   All colour, type, spacing, radius, and shadow values live here.
+   Edit this file to retheme the whole site without touching layout or
+   component rules.
+
+   Naming convention: --{category}-{scale/modifier}
+   ========================================================================== */
+
+:root {
+
+  /* ── Colour ─────────────────────────────────────────────────────────────
+     "Noir with a wink": charcoal/ink dark base (espionage feel), warm
+     paper/parchment for surfaces, one amber/brass accent for CTAs and
+     highlights. Chessboard squares reuse the ink/paper duality naturally.
+     ────────────────────────────────────────────────────────────────────── */
+
+  /* Ink scale — primary text and dark surfaces */
+  --ink-950: #14161c;    /* near-black; primary text, dark backgrounds */
+  --ink-800: #1f2129;    /* rich dark for headings, footer bg */
+  --ink-600: #3a3e4a;    /* secondary text, muted headings */
+  --ink-400: #6b7180;    /* placeholder text, meta text, muted labels */
+  --ink-200: #a8adb8;    /* very muted; footer secondary text */
+
+  /* Paper scale — warm off-white surfaces; evokes parchment / dossier paper */
+  --paper-0:   #ffffff;  /* pure white; card surfaces */
+  --paper-50:  #faf8f3;  /* page background */
+  --paper-100: #f1ede3;  /* raised surface, alternate section bg, board light squares */
+  --paper-200: #e3ddcf;  /* border / hairline colour on paper backgrounds */
+
+  /* Semantic surface aliases */
+  --bg-page:    var(--paper-50);  /* default page background */
+  --bg-raised:  var(--paper-0);   /* card / input surfaces */
+  --bg-inverse: var(--ink-950);   /* dark sections (footer, stats strip) */
+
+  /* Borders */
+  --line:         var(--paper-200);              /* hairlines on light backgrounds */
+  --line-on-dark: rgba(250, 248, 243, 0.14);     /* hairlines on dark backgrounds */
+
+  /* Accent — brass/amber; the single "wink" colour in an otherwise monochrome palette */
+  --accent-amber:      #c8852a;   /* primary CTAs, highlights, mascot hat band */
+  --accent-amber-dark: #a66a1c;   /* hover / pressed state */
+  --accent-amber-soft: #f0dcb8;   /* focus ring, ambient glow */
+
+  /* Board colours — used for the chessboard placeholder and as subtle decorative motifs */
+  --board-light: #f1ede3;   /* light squares (matches paper-100) */
+  --board-dark:  #2b2e38;   /* dark squares */
+
+  /* Semantic status */
+  --success: #4c7a5c;   /* "PGN available" indicator */
+
+
+  /* ── Typography ─────────────────────────────────────────────────────────
+     Two typefaces only.
+     Display (Fraunces): wordmark, hero tagline, section headings, blockquotes.
+     Body (Inter): nav, inputs, body copy, dossier rows, buttons — maximum legibility.
+     ────────────────────────────────────────────────────────────────────── */
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:    "ui-monospace", "SFMono-Regular", Consolas, monospace;
+
+  /* Fluid type scale — clamp() smoothly interpolates between mobile and desktop */
+  --fs-xs:   0.8125rem;                           /* 13px — meta, labels, tags */
+  --fs-sm:   0.9375rem;                           /* 15px — secondary body */
+  --fs-base: 1rem;                                /* 16px — body */
+  --fs-md:   1.125rem;                            /* 18px — lead text, search input */
+  --fs-lg:   1.5rem;                              /* 24px — card headings */
+  --fs-xl:   clamp(1.625rem, 1.2vw + 1.3rem, 2rem);       /* 26–32px — section headings */
+  --fs-2xl:  clamp(2rem, 2.5vw + 1.3rem, 2.75rem);        /* 32–44px — sub-hero */
+  --fs-3xl:  clamp(2.5rem, 5vw + 1rem, 4rem);             /* 40–64px — hero wordmark */
+
+  /* Line heights */
+  --lh-tight:  1.1;   /* hero wordmark / display text */
+  --lh-snug:   1.3;   /* headings */
+  --lh-normal: 1.6;   /* body text */
+
+
+  /* ── Spacing — 8px base grid ─────────────────────────────────────────── */
+
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.5rem;    /* 24px */
+  --space-6:  2rem;      /* 32px */
+  --space-7:  3rem;      /* 48px */
+  --space-8:  4rem;      /* 64px */
+  --space-9:  6rem;      /* 96px */
+  --space-10: 8rem;      /* 128px */
+
+
+  /* ── Shape ───────────────────────────────────────────────────────────── */
+
+  --radius-sm:   6px;     /* inputs, tags */
+  --radius-md:   10px;    /* small cards */
+  --radius-lg:   16px;    /* large cards */
+  --radius-pill: 999px;   /* fully rounded (buttons, search bar) */
+
+
+  /* ── Shadow — kept small and realistic; no oversized glow ───────────── */
+
+  --shadow-sm:    0 1px 2px rgba(20, 22, 28, 0.06);
+  --shadow-md:    0 4px 16px rgba(20, 22, 28, 0.09);
+  --shadow-focus: 0 0 0 3px var(--accent-amber-soft);   /* keyboard focus ring */
+
+
+  /* ── Layout ──────────────────────────────────────────────────────────── */
+
+  --content-max: 1180px;       /* max width of the .wrap container */
+  --content-pad: var(--space-5); /* inline padding inside .wrap */
+
+}

@@ -1,0 +1,862 @@
+/* ==========================================================================
+   components.css — UI component styles
+   ─────────────────────────────────────────────────────────────────────────
+   Each section below covers one self-contained component: its variants,
+   states, and any sub-elements. Media queries are kept adjacent to the
+   relevant component rather than collected at the bottom.
+   ========================================================================== */
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   MASCOT IDLE ANIMATIONS
+   Subtle CSS @keyframes keep the mascot alive without distracting from the
+   search tooling. Respects prefers-reduced-motion for accessibility.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Hero mascot: gentle tilt/bob — suggests the spy is peering around curiously */
+@keyframes mascot-peek {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30%       { transform: translateY(-6px) rotate(-4deg); }
+  60%       { transform: translateY(-3px) rotate(2deg); }
+}
+
+/* How-it-works mascot: simple vertical float — investigation in progress */
+@keyframes mascot-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-7px); }
+}
+
+/* Only animate if the user hasn't requested reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__mascot-peek {
+    animation: mascot-peek 4.5s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+
+  .how__mascot {
+    animation: mascot-float 3.8s ease-in-out infinite;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   WORDMARK
+   "chess-intelligence" in Fraunces display face.
+   The "-intelligence" portion gets the amber accent — the only colour
+   variation in the wordmark, keeping it legible at all sizes.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+/* "intelligence" accent */
+.wordmark__intel {
+  color: var(--accent-amber-dark);
+}
+
+/* On dark backgrounds, use a brighter amber so contrast is maintained */
+.wordmark--inverse .wordmark__intel {
+  color: var(--accent-amber);
+}
+
+/* Size variants */
+.wordmark--sm  { font-size: var(--fs-md); }   /* Header */
+.wordmark--lg  { font-size: var(--fs-3xl); margin: 0; }  /* Hero h1 */
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   WORDMARK LOCKUP
+   Header: favicon mark icon + wordmark text side by side.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.wordmark-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* The favicon mark icon is scaled down and positioned to optically align
+   with the baseline of the wordmark text */
+.wordmark-lockup__mark {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  position: relative;
+  top: 1px; /* Optical alignment with text cap-height */
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   SITE NAVIGATION
+   ────────────────────────────────────────────────────────────────────────── */
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--ink-600);
+}
+
+/* More generous gap on wider screens once there's room */
+@media (min-width: 560px) {
+  .site-nav {
+    gap: var(--space-5);
+  }
+}
+
+.site-nav a:hover {
+  color: var(--ink-950);
+  transition: color 0.15s ease;
+}
+
+/* "Sign in" gets a quiet pill button treatment per the brief */
+.site-nav__signin {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  color: var(--ink-800);
+  transition: border-color 0.15s ease;
+}
+
+.site-nav__signin:hover {
+  border-color: var(--ink-400);
+  color: var(--ink-950);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   HERO INTRO (mascot + wordmark + tagline)
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* The animated hero mascot sits above the wordmark h1 */
+.hero__mascot-peek {
+  width: 96px;
+  height: auto;
+  margin-inline: auto;
+  margin-bottom: var(--space-3);
+  display: block;
+}
+
+.hero__tagline {
+  margin-top: var(--space-4);
+  font-size: var(--fs-md);
+  color: var(--ink-600);
+}
+
+.hero__surface-label {
+  margin-top: var(--space-2);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   NAME SEARCH — Mode A
+   Classic search-engine bar: pill shape, magnifying-glass icon left,
+   Search button right, focus ring on the whole bar.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* The h2 "Find a player" is visually hidden — the hero wordmark already
+   carries this context. Hidden via clip so screen readers still see it. */
+.search-surface__heading {
+  font-size: var(--fs-lg);
+  margin-bottom: var(--space-4);
+}
+
+.search-surface__mode--name .search-surface__heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Search bar container — focus-within lifts the border + adds the amber ring */
+.namesearch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-raised);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.namesearch:focus-within {
+  border-color: var(--accent-amber);
+  box-shadow: var(--shadow-focus);
+}
+
+/* Magnifying glass icon inside the bar */
+.namesearch__icon {
+  flex-shrink: 0;
+  margin-inline: var(--space-3);
+  color: var(--ink-400);
+  transition: color 0.15s ease;
+}
+
+.namesearch:focus-within .namesearch__icon {
+  color: var(--accent-amber-dark); /* Icon warms to amber when bar is focused */
+}
+
+/* Text input — fills available space between icon and button */
+.namesearch input {
+  flex: 1 1 auto;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: var(--fs-md);
+  padding-block: var(--space-3);
+  min-width: 0; /* Prevents flex overflow */
+  color: var(--ink-950);
+}
+
+.namesearch input::placeholder {
+  color: var(--ink-400);
+}
+
+.namesearch__submit {
+  flex-shrink: 0;
+}
+
+/* Helper line below the search bar */
+.search-surface__helper {
+  margin-top: var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--ink-400);
+}
+
+/* Quick-search suggestion chips */
+.namesearch__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.namesearch__suggestion-label {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+  font-weight: 500;
+}
+
+/* Clickable chips — subtle, not competing with the search bar */
+.namesearch__chip {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ink-600);
+  background: var(--paper-100);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.namesearch__chip:hover {
+  border-color: var(--accent-amber);
+  color: var(--accent-amber-dark);
+  background: var(--accent-amber-soft);
+}
+
+@media (min-width: 960px) {
+  /* Left-align heading on desktop where layout is asymmetric */
+  .search-surface__heading {
+    text-align: left;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   BOARD SEARCH — Mode B
+   "Case file" card around the board placeholder. Dossier tab above,
+   controls, placeholder, FEN input, and search button inside.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Sub-label beneath the section heading */
+.search-surface__sublabel {
+  margin-top: calc(var(--space-3) * -1); /* Tighten gap below heading */
+  margin-bottom: var(--space-4);
+  color: var(--ink-600);
+  font-size: var(--fs-sm);
+}
+
+/* The outer dossier card */
+.board-dossier {
+  position: relative;
+  margin-top: var(--space-6); /* Clearance for the absolute-positioned tab above */
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  padding-top: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+/* "Position file" tab — sits flush on top of the card's top border */
+.board-dossier__tab {
+  position: absolute;
+  top: -1px;
+  left: var(--space-5);
+  transform: translateY(-100%);
+  background: var(--ink-950);
+  color: var(--paper-50);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+/* Controls row: side-to-move indicator + undo/reset buttons */
+.board-dossier__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+/* "White to move" indicator pill */
+.side-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--ink-800);
+}
+
+/* The dot shows piece colour (white = light, black = dark) */
+.side-indicator__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--paper-0);
+  border: 1.5px solid var(--ink-950);
+}
+
+.board-dossier__controls {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ── Board placeholder container ──
+   Client will replace this with their JS board component.
+   The container's dimensions, border, and reticle corners remain. */
+.board-placeholder {
+  position: relative;
+  aspect-ratio: 1 / 1; /* Always a square regardless of container width */
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--ink-950);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Chessboard pattern via repeating-conic-gradient (most concise technique) */
+.board-placeholder__grid {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-conic-gradient(var(--board-dark) 0% 25%, var(--board-light) 0% 50%);
+  background-size: 25% 25%; /* 4×4 tiles × 2 squares per tile = 8×8 board */
+}
+
+/* "Board component loads here" label — semi-transparent pill over the board */
+.board-placeholder__label {
+  position: relative;
+  z-index: 1;
+  background: rgba(20, 22, 28, 0.76);
+  color: var(--paper-50);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+}
+
+/* Corner reticles — L-shaped amber brackets give the board a surveillance / targeting look */
+.board-placeholder__reticle {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  z-index: 2;
+  border-color: var(--accent-amber);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.85;
+}
+
+/* Each corner: only the two sides touching the corner get a border */
+.board-placeholder__reticle--tl { top: 8px;    left: 8px;   border-top-width: 2px;    border-left-width: 2px;  }
+.board-placeholder__reticle--tr { top: 8px;    right: 8px;  border-top-width: 2px;    border-right-width: 2px; }
+.board-placeholder__reticle--bl { bottom: 8px; left: 8px;   border-bottom-width: 2px; border-left-width: 2px;  }
+.board-placeholder__reticle--br { bottom: 8px; right: 8px;  border-bottom-width: 2px; border-right-width: 2px; }
+
+/* FEN input row below the board */
+.board-dossier__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.board-dossier__fen-label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--ink-400);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.board-dossier__fen-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-600);
+  background: var(--paper-50);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.board-dossier__fen-input:focus {
+  border-color: var(--accent-amber);
+  box-shadow: var(--shadow-focus);
+}
+
+/* Full-width CTA at the bottom of the card */
+.board-dossier__submit {
+  width: 100%;
+  margin-top: var(--space-5);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   STATS STRIP COMPONENTS
+   Four headline numbers in a row. Dark bg, amber for the numeric values.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Each stat: dt (label) + dd (value) stacked */
+.stats-strip__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.stats-strip__value {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--accent-amber);
+  line-height: 1;
+}
+
+/* The trailing "+" sign is slightly smaller so it reads as a modifier */
+.stats-strip__plus {
+  font-size: 0.7em;
+  vertical-align: super;
+  margin-left: 1px;
+}
+
+.stats-strip__label {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ink-200);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   CASE FILE (Dossier results preview)
+   Styled as a physical case file: classified header, game rows, paper-clip.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Outer card */
+.case-file {
+  position: relative;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* Dark header row with redacted-style bars — simulates a classified document */
+.case-file__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--ink-950);
+  padding: var(--space-3) var(--space-5);
+}
+
+/* Faux-redacted bars: variable width set inline on each span */
+.case-file__redacted {
+  display: inline-block;
+  height: 10px;
+  background: var(--ink-600);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Case number tag in the classified header */
+.case-file__tag {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  color: var(--paper-200);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.case-file__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Individual game row — one game per row, grid layout */
+.case-file__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--line);
+  transition: background 0.12s ease;
+}
+
+.case-file__row:first-child {
+  border-top: none;
+}
+
+.case-file__row:hover {
+  background: var(--paper-50); /* Subtle hover to reinforce interactivity */
+}
+
+/* Players section: Name + Elo, "vs", Name + Elo */
+.case-file__players {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+}
+
+/* Elo rating sits beside each name in a muted weight */
+.case-file__player em {
+  font-style: normal;
+  color: var(--ink-400);
+  font-weight: 500;
+  margin-left: var(--space-1);
+}
+
+.case-file__vs {
+  color: var(--ink-400);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Opening name styled as a soft chip/tag */
+.case-file__opening-tag {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ink-600);
+  background: var(--paper-100);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 2px var(--space-3);
+}
+
+.case-file__date {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+}
+
+/* PGN availability cue: green dot + label */
+.case-file__pgn {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.case-file__pgn::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* Case file footer row: "N more games" + "View full case file →" link */
+.case-file__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--line);
+  background: var(--paper-50);
+}
+
+.case-file__more-hint {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+}
+
+.case-file__view-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--accent-amber-dark);
+  transition: gap 0.15s ease;
+}
+
+.case-file__view-link:hover {
+  gap: var(--space-3); /* Arrow nudges right on hover */
+}
+
+/* Paper-clip: absolute-positioned ring shape that pokes up from the top-right */
+.case-file__paperclip {
+  position: absolute;
+  top: -10px;
+  right: 28px;
+  width: 22px;
+  height: 56px;
+  border: 3px solid var(--ink-200);
+  border-radius: 11px;
+  transform: rotate(8deg);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Wider game row grid on tablet+ ── */
+@media (min-width: 640px) {
+  .case-file__row {
+    grid-template-columns: 1.6fr 1.2fr auto auto;
+    align-items: center;
+    gap: var(--space-4);
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   TESTIMONIALS
+   Fraunces italic for the quote voice — the brand's display face carrying
+   the emotional weight. Attribution is small Inter.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.testimonial {
+  border-left: 3px solid var(--accent-amber);
+  padding-left: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.testimonial__quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--ink-800);
+  line-height: var(--lh-snug);
+}
+
+.testimonial__author {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.testimonial__name {
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  color: var(--ink-950);
+}
+
+.testimonial__detail {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   HOW IT WORKS — step components
+   ────────────────────────────────────────────────────────────────────────── */
+
+.how__step {
+  position: relative;
+}
+
+/* Numbered badge for each step */
+.how__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--bg-raised);
+  background: var(--ink-950);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-bottom: var(--space-4);
+  position: relative;
+  z-index: 1; /* Sits above the connecting timeline line */
+}
+
+.how__step-heading {
+  font-size: var(--fs-md);
+  margin-bottom: var(--space-2);
+}
+
+.how__step-copy {
+  color: var(--ink-600);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  max-width: 32ch;
+}
+
+/* Step 2 (feature step): amber badge to visually distinguish it */
+.how__step--feature .how__index {
+  background: var(--accent-amber);
+}
+
+/* Mascot in step 2 renders above the badge in the column flow */
+.how__step--feature {
+  display: flex;
+  flex-direction: column;
+}
+
+.how__mascot {
+  width: 72px;
+  height: auto;
+  order: -1; /* Floats above the index badge in flex column */
+  margin-bottom: var(--space-3);
+  opacity: 0.92;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   PRE-FOOTER CTA BLOCK — components
+   Dark background, large headline, repeated search bar.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.cta-block__copy {
+  max-width: 480px;
+}
+
+.cta-block__heading {
+  font-size: var(--fs-2xl);
+  color: var(--paper-50);
+  line-height: var(--lh-snug);
+}
+
+.cta-block__sub {
+  margin-top: var(--space-3);
+  color: var(--ink-200);
+  font-size: var(--fs-md);
+}
+
+/* Repeated search bar — same structure as hero namesearch but in a dark context */
+.cta-block__search {
+  display: flex;
+  align-items: center;
+  background: var(--bg-raised);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2);
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+  max-width: 440px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-block__search:focus-within {
+  border-color: var(--accent-amber);
+  box-shadow: var(--shadow-focus);
+}
+
+.cta-block__search input {
+  flex: 1 1 auto;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: var(--fs-base);
+  padding-block: var(--space-3);
+  padding-inline: var(--space-3);
+  min-width: 0;
+  color: var(--ink-950);
+}
+
+.cta-block__search input::placeholder {
+  color: var(--ink-400);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   FOOTER COMPONENTS
+   ────────────────────────────────────────────────────────────────────────── */
+
+.site-footer__about {
+  margin-top: var(--space-3);
+  max-width: 42ch;
+  font-size: var(--fs-sm);
+  color: var(--ink-200);
+  line-height: var(--lh-normal);
+}
+
+.site-footer__links {
+  font-size: var(--fs-sm);
+  color: var(--paper-200);
+}
+
+.site-footer__links a {
+  transition: color 0.15s ease;
+}
+
+.site-footer__links a:hover {
+  color: var(--paper-0);
+}
+
+/* Small mascot in footer — light silhouette against the dark background */
+.site-footer__mascot {
+  width: 64px;
+  height: auto;
+  justify-self: start;
+  opacity: 0.9;
+}
+
+@media (min-width: 760px) {
+  .site-footer__mascot {
+    justify-self: end;
+  }
+}

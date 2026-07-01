@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="chess-intelligence mark: a pawn wearing a fedora">
+  <title>chess-intelligence</title>
+  <!-- pawn base -->
+  <ellipse cx="32" cy="55" rx="16" ry="5" fill="#14161c"/>
+  <!-- pawn body -->
+  <polygon points="20,52 44,52 37,33 27,33" fill="#14161c"/>
+  <!-- head -->
+  <ellipse cx="32" cy="30" rx="12" ry="12" fill="#14161c"/>
+  <!-- hat brim -->
+  <ellipse cx="32" cy="24.5" rx="23" ry="5.5" fill="#14161c"/>
+  <!-- hat crown -->
+  <rect x="20" y="4" width="24" height="20" rx="9" fill="#14161c"/>
+  <!-- hat band, the one accent color -->
+  <rect x="20" y="18" width="24" height="4" fill="#c8852a"/>
+</svg>
