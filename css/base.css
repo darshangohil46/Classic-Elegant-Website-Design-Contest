@@ -24,6 +24,7 @@
 html {
   -webkit-text-size-adjust: 100%; /* Prevent iOS from auto-scaling text on orientation change */
   scroll-behavior: smooth;        /* Smooth scrolling for anchor nav links */
+  overflow-x: hidden;             /* Prevent horizontal scrollbar from any overflowing element */
 }
 
 body {
@@ -35,6 +36,8 @@ body {
   -webkit-font-smoothing: antialiased;    /* Crisp text on macOS/iOS */
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;                     /* Prevent horizontal scrollbar on body */
+  width: 100%;
 }
 
 
@@ -126,6 +129,18 @@ h1, h2, h3, h4 {
   padding-inline: var(--content-pad);
 }
 
+@media (max-width: 480px) {
+  .wrap {
+    padding-inline: var(--space-4); /* 16px */
+  }
+}
+
+@media (max-width: 320px) {
+  .wrap {
+    padding-inline: var(--space-3); /* 12px */
+  }
+}
+
 /* Small uppercase label used as section eyebrow / category tag */
 .eyebrow {
   font-family: var(--font-body);
@@ -153,6 +168,19 @@ h1, h2, h3, h4 {
   white-space: nowrap;
   cursor: pointer;
   border: none;
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: var(--space-2) var(--space-4);
+  }
+}
+
+@media (max-width: 360px) {
+  .btn {
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 .btn:active {

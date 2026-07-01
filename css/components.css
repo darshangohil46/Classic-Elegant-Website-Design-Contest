@@ -69,6 +69,22 @@
 .wordmark--sm  { font-size: var(--fs-md); }   /* Header */
 .wordmark--lg  { font-size: var(--fs-3xl); margin: 0; }  /* Hero h1 */
 
+/* Scale down small wordmark on extremely narrow screens to prevent header wrapping issues */
+@media (max-width: 360px) {
+  .wordmark--sm {
+    font-size: var(--fs-sm);
+  }
+}
+
+/* On small screens the full wordmark "chess-intelligence" at 40px (the --fs-3xl minimum)
+   is wider than the viewport. Scale it down with a viewport-relative size instead. */
+@media (max-width: 640px) {
+  .wordmark--lg {
+    font-size: clamp(1.05rem, 7.5vw, 2.5rem);
+    /* 216px → 16.8px | 320px → 24px  |  375px → 28px  |  480px → 36px  |  640px → 40px */
+  }
+}
+
 
 /* ──────────────────────────────────────────────────────────────────────────
    WORDMARK LOCKUP
@@ -190,6 +206,8 @@
   border-radius: var(--radius-pill);
   padding: var(--space-2);
   box-shadow: var(--shadow-sm);
+  width: 100%;
+  min-width: 0; /* Override intrinsic content min-width so form scales down inside flex containers */
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -244,6 +262,12 @@
   align-items: center;
   gap: var(--space-2);
   margin-top: var(--space-4);
+}
+
+@media (max-width: 480px) {
+  .namesearch__suggestions {
+    justify-content: center;
+  }
 }
 
 .namesearch__suggestion-label {
@@ -303,6 +327,15 @@
   padding: var(--space-5);
   padding-top: var(--space-6);
   box-shadow: var(--shadow-md);
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 480px) {
+  .board-dossier {
+    padding: var(--space-4);
+    padding-top: var(--space-5);
+  }
 }
 
 /* "Position file" tab — sits flush on top of the card's top border */
@@ -326,6 +359,14 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-4);
+}
+
+@media (max-width: 360px) {
+  .board-dossier__top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
 }
 
 /* "White to move" indicator pill */
@@ -411,6 +452,8 @@
   align-items: center;
   gap: var(--space-3);
   margin-top: var(--space-4);
+  width: 100%;
+  min-width: 0;
 }
 
 .board-dossier__fen-label {
@@ -424,6 +467,7 @@
 .board-dossier__fen-input {
   flex: 1 1 auto;
   min-width: 0;
+  width: 100%;
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
   color: var(--ink-600);
@@ -657,11 +701,28 @@
 }
 
 /* ── Wider game row grid on tablet+ ── */
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .case-file__row {
     grid-template-columns: 1.6fr 1.2fr auto auto;
     align-items: center;
     gap: var(--space-4);
+  }
+}
+
+/* On mobile, trim the case file row padding and tighten the date/pgn row */
+@media (max-width: 480px) {
+  .case-file__row {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .case-file__header {
+    padding-inline: var(--space-4);
+  }
+
+  .case-file__footer {
+    padding-inline: var(--space-4);
+    flex-wrap: wrap;
+    gap: var(--space-2);
   }
 }
 

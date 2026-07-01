@@ -121,8 +121,14 @@
 @media (min-width: 760px) {
   .about-section__inner {
     grid-template-columns: 260px 1fr; /* Narrow label column left, prose right */
-    gap: var(--space-9);
+    gap: var(--space-6);
     align-items: start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-section__inner {
+    gap: var(--space-9);
   }
 }
 

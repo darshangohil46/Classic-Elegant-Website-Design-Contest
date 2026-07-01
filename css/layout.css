@@ -34,11 +34,13 @@
   padding-block: var(--space-4);
 }
 
-/* Below 420px: nav spans full width so items have enough room */
+/* Below 420px: nav spans full width and wraps cleanly to avoid overlap */
 @media (max-width: 420px) {
   .site-nav {
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
   }
 }
 
@@ -53,6 +55,13 @@
   padding-block: var(--space-8) var(--space-9);
   /* Subtle warm radial to distinguish hero canvas without a harsh edge */
   background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--paper-100) 0%, var(--paper-50) 70%);
+}
+
+/* Tighter vertical padding on mobile — reduces scrolling to reach the search bar */
+@media (max-width: 640px) {
+  .hero {
+    padding-block: var(--space-6) var(--space-7);
+  }
 }
 
 .hero__inner {
@@ -79,19 +88,24 @@
   flex-direction: column; /* Mobile: stacked (name search first, board second per §7) */
   gap: var(--space-6);
   align-items: stretch;
+  min-width: 0;           /* Prevent flex containers from overflowing viewport */
 }
 
 /* Name search column */
 .search-surface__mode--name {
   max-width: 640px;
+  width: 100%;
   margin-inline: auto;
   text-align: center;
+  min-width: 0;           /* Allow column to shrink below content width */
 }
 
 /* Board search column */
 .search-surface__mode--board {
   max-width: 480px;
+  width: 100%;
   margin-inline: auto;
+  min-width: 0;
 }
 
 /* "or" divider between the two modes */
@@ -116,12 +130,18 @@
 }
 
 /* ── Desktop hero layout: side by side ── */
-@media (min-width: 960px) {
+@media (min-width: 1024px) {
   .search-surface {
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    gap: var(--space-8);
+    gap: var(--space-6); /* Smaller gap to prevent overflow on mid-size screens */
+  }
+
+  @media (min-width: 1200px) {
+    .search-surface {
+      gap: var(--space-8); /* Return to generous gap on larger PC screens */
+    }
   }
 
   /* Name search takes more width (it's the primary mode) */
@@ -176,7 +196,7 @@
   padding: 0;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .stats-strip__list {
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -221,11 +241,17 @@
 }
 
 /* ── Tablet and up: intro sticks left, case file fills remaining space ── */
-@media (min-width: 860px) {
+@media (min-width: 1024px) {
   .dossier-preview__inner {
     flex-direction: row;
     align-items: flex-start;
-    gap: var(--space-9);
+    gap: var(--space-6); /* Smaller gap to prevent grid squeeze on medium screens */
+  }
+
+  @media (min-width: 1200px) {
+    .dossier-preview__inner {
+      gap: var(--space-9); /* Standard generous gap on desktop */
+    }
   }
 
   .dossier-preview__intro {
