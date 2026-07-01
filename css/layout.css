@@ -165,7 +165,7 @@
 }
 
 .stats-strip__inner {
-  /* Numbers as a responsive flex row that wraps gracefully */
+  width: 100%; /* Full-width inner container; flex layout applied on the .stats-strip__list child */
 }
 
 .stats-strip__list {

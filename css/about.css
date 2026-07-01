@@ -75,6 +75,13 @@
   opacity: 0.92;
 }
 
+/* Subtle float animation — same keyframe used for the how-it-works mascot on the home page */
+@media (prefers-reduced-motion: no-preference) {
+  .about-hero__mascot {
+    animation: mascot-float 3.8s ease-in-out infinite;
+  }
+}
+
 @media (min-width: 860px) {
   .about-hero__inner {
     flex-direction: row;
@@ -121,7 +128,7 @@
 
 /* "FILE §N" tag + section heading in the label column */
 .about-section__label {
-  /* Position is sticky on desktop so the label stays visible while reading */
+  position: relative; /* Establishes a stacking context; sticky override applied at desktop */
 }
 
 @media (min-width: 760px) {
@@ -245,7 +252,7 @@
    ────────────────────────────────────────────────────────────────────────── */
 
 .about-note {
-  background: var(--paper-100);
+  background: var(--paper-50); /* Lighter than the alt-section bg (paper-100) so the note stands out */
   border: 1px solid var(--line);
   border-left: 3px solid var(--ink-400);
   border-radius: var(--radius-md);

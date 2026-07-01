@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: column;
   background: var(--paper-50);
-  overflow: hidden; /* Prevents the decorative bg tile from causing scrollbars */
+  overflow-x: hidden; /* Clips the bg tile that bleeds 40px right — keeps vertical scrolling intact */
 }
 
 
